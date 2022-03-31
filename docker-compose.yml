@@ -22,3 +22,10 @@ services:
       context: .
       dockerfile: Auction.Auction/Dockerfile
 
+
+  auction.order:
+    image: ${DOCKER_REGISTRY-}auctionorder
+    build:
+      context: .
+      dockerfile: Auction.Order/Dockerfile
+

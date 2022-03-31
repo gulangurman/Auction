@@ -58,3 +58,19 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  auction.order:
+    container_name: auctionorder
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__OrderConnection=Data Source=ordersdb;Database=OrdersDB;User ID=sa;Password=Odb12345678"
+      - "EventBus__HostName=rabbitmq"
+    depends_on:
+      - ordersdb
+      - rabbitmq
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    ports:
+      - "8002:80"
+
