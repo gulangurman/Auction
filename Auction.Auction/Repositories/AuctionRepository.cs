@@ -1,8 +1,9 @@
 ﻿using Auction.Auction.Data;
 using Auction.Auction.Models;
+using Auction.Auction.Repositories.Abstract;
 using MongoDB.Driver;
 
-namespace Auction.Auction.Repositories.Abstract
+namespace Auction.Auction.Repositories
 {
     public class AuctionRepository : IAuctionRepository
     {

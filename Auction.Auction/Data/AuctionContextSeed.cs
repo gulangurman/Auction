@@ -31,7 +31,7 @@ namespace Auction.Auction.Data
                         "seller2@example.com"
                     },
                     Quantity=3,
-                    Status=(int)AuctionStatus.Active
+                    Status=(int)Status.Active
                 },
                  new EAuction
                 {
@@ -47,7 +47,7 @@ namespace Auction.Auction.Data
                         "seller3@example.com"
                     },
                     Quantity=1,
-                    Status=(int)AuctionStatus.Active
+                    Status=(int)Status.Active
                 }
             };
         }

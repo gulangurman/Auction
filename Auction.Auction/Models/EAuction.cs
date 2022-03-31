@@ -18,7 +18,7 @@ namespace Auction.Auction.Models
         public int Status { get; set; }
         public List<string> IncludedSellers { get; set; } = new List<string>();
     }
-    public enum AuctionStatus
+    public enum Status
     {
         Active = 0,
         Closed = 1,

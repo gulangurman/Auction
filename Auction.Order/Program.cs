@@ -1,12 +1,9 @@
-using Auction.Auction.Data;
-using Auction.Auction.Repositories;
-using Auction.Auction.Repositories.Abstract;
-using Auction.Auction.Settings;
+using Auction.Order.Consumers;
+using Auction.Order.Extensions;
 using EventBusRabbitMQ;
-using EventBusRabbitMQ.Producer;
-using Microsoft.Extensions.Options;
+using Ordering.Application;
+using Ordering.Infrastructure;
 using RabbitMQ.Client;
-using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,29 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.Configure<AuctionDatabaseSettings>(builder.Configuration
-    .GetSection(nameof(AuctionDatabaseSettings)));
-builder.Services.AddSingleton<IAuctionDatabaseSettings>(sp =>
-  sp.GetRequiredService<IOptions<AuctionDatabaseSettings>>().Value);
-
-builder.Services.AddTransient<IAuctionContext, AuctionContext>();
-builder.Services.AddTransient<IAuctionRepository, AuctionRepository>();
-builder.Services.AddTransient<IBidRepository, BidRepository>();
-
-builder.Services.AddAutoMapper(typeof(Program));
-
-builder.Services.AddSwaggerGen(s =>
-{
-    s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Auction.Auction",
-        Version = "v1"
-    });
-});
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 builder.Services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 {
-    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();   
     var factory = new ConnectionFactory()
     {
         HostName = builder.Configuration.GetSection("EventBus").GetSection("HostName").Value
@@ -61,20 +41,33 @@ builder.Services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
     return new DefaultRabbitMQPersistentConnection(factory, retryCount, logger);
 });
 
-builder.Services.AddSingleton<EventBusRabbitMQProducer>();
+builder.Services.AddSingleton<EventBusOrderCreateConsumer>();
+
+builder.Services.AddSwaggerGen(x =>
+{
+    x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Order API",
+        Version = "v1"
+    });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseAuthorization();
+app.MigrateDatabase();
 
-app.MapControllers();
+app.UseRabbitListener();
 
 app.UseSwagger();
 app.UseSwaggerUI(x =>
 {
-    x.SwaggerEndpoint("/swagger/v1/swagger.json", "Auction API v1");
+    x.SwaggerEndpoint("/swagger/v1/swagger.json", "Order API v1");
 });
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

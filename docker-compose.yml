@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    image: rabbitmq:3.10-rc-management-alpine
+
+  ordersdb:
+    image: mcr.microsoft.com/mssql/server
+
   auctiondb: 
     image: mongo
 
@@ -9,3 +15,10 @@ services:
     build:
       context: .
       dockerfile: Auction.Products/Dockerfile
+
+  auction.auction:
+    image: ${DOCKER_REGISTRY-}auctionauction
+    build:
+      context: .
+      dockerfile: Auction.Auction/Dockerfile
+
