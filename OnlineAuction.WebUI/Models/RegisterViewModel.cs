@@ -38,6 +38,6 @@ namespace OnlineAuction.WebUI.Models
         [Display(Name = "Is Seller")]
         public bool IsSeller { get; set; }
 
-        public int UserSelectTypeId { get; set; }
+        public int UserType { get; set; }
     }
 }
