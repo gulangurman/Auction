@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ordering.Infrastructure.Data;
+using Auction.Ordering.Data;
 
-namespace Auction.Order.Extensions
+namespace Auction.Ordering.Extensions
 {
     public static class MigrationManager
     {

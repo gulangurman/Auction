@@ -5,7 +5,7 @@ using Ordering.Application.Queries;
 using Ordering.Application.Responses;
 using System.Net;
 
-namespace Auction.Order.Controllers
+namespace Auction.Ordering.Controllers
 {
     [Route("/api/v1/[controller]")]
     [ApiController]

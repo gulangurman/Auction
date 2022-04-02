@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Auction.Order": {
+    "Auction.Ordering": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

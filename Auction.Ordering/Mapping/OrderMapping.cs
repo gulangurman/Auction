@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using EventBusRabbitMQ.Events;
 using Ordering.Application.Commands.OrderCreate;
 
-namespace Auction.Order.Mapping
+namespace Auction.Ordering.Mapping
 {
     public class OrderMapping : Profile
     {

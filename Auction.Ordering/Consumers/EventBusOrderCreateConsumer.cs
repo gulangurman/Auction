@@ -9,7 +9,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace Auction.Order.Consumers
+namespace Auction.Ordering.Consumers
 {
     public class EventBusOrderCreateConsumer
     {

@@ -1,9 +1,15 @@
-using Auction.Order.Consumers;
-using Auction.Order.Extensions;
+using Auction.Ordering.Consumers;
+using Auction.Ordering.Extensions;
 using EventBusRabbitMQ;
 using Ordering.Application;
-using Ordering.Infrastructure;
+using Auction.Ordering;
 using RabbitMQ.Client;
+using Ordering.Domain.Repositories.Base;
+using Auction.Ordering.Repositories.Base;
+using Ordering.Domain.Repositories;
+using Auction.Ordering.Repositories;
+using Auction.Ordering.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +17,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddDbContext<OrderContext>(options =>
+                    options.UseSqlServer(
+                        builder.Configuration.GetConnectionString("OrderConnection"),
+                        b => b.MigrationsAssembly(typeof(OrderContext).Assembly.FullName)), ServiceLifetime.Singleton);
+
+//Add Repositories
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+
 builder.Services.AddApplication();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 {
-    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();   
+    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
     var factory = new ConnectionFactory()
     {
         HostName = builder.Configuration.GetSection("EventBus").GetSection("HostName").Value
