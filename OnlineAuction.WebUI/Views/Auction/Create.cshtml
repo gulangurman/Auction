@@ -1,0 +1,39 @@
+﻿@model AuctionViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form asp-controller="Auction" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Input</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-control">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" type="text" class="form-control" placeholder="Name" />
+                    </div>
+                    <div class="form-control">
+                        <label asp-for="Description" class="form-label"></label>
+                        <input asp-for="Description" type="text" class="form-control" placeholder="Description" />
+                    </div>
+                    <div class="form-control">
+                        <label asp-for="SellerId" class="form-label"></label>
+                        @if (ViewBag.Users != null)
+                        {
+                            @Html.DropDownListFor(l => l.SellerId,
+                        new SelectList(ViewBag.Users, "Id", "FirstName"),
+                        "Please Select Seller",
+                        new { @class = "custom-select form-control col-sm-6" })
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

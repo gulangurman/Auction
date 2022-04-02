@@ -3,9 +3,10 @@
     ViewData["Title"] = "Auctions";
 }
 
-<h1>Auctions</h1>
-
 <div class="row">
+    <div class="col-12 mb-3">
+        <a asp-controller="Auction" asp-action="Create">Create new auction</a>
+    </div>
     <div class="col-12 col-lg-8 col-xxl-9 d-flex">
         <div class="card flex-fill">
             <div class="card-header">
@@ -35,7 +36,7 @@
                                 <td class="d-none d-xl-table-cell">@auction.StartedAt.ToShortDateString()</td>
                                 <td class="d-none d-xl-table-cell">@auction.FinishedAt.ToShortDateString()</td>
                                 <td><span class="badge bg-success">@auction.Status</span></td>
-                                <td><a asp-controller="Auction" asp-action="Detail" asp-route-id="@auction.Id">Details</a></td>
+                                <td><a asp-controller="Auction" asp-action="Details" asp-route-id="@auction.Id">Details</a></td>
                             </tr>
                         }
                     }
