@@ -22,18 +22,21 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <span>
+                Are you a new user? Sign up <a asp-controller="Home" asp-action="Register"> here</a>
+            </span>
+        </div>
     </div>
 </div>
 
-<div>
-    <span>
-        Are you a new user? Sign up <a asp-controller="Home" asp-action="Register"> here</a>
-    </span>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

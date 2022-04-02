@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="shortcut icon" href="~/img/icons/icon-48x48.png" /> 
+    <link rel="shortcut icon" href="~/img/icons/icon-48x48.png" />
     <title>@ViewData["Title"] - Online Auction</title>
     <link href="~/css/app.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
                         <a class="sidebar-link" href="index.html">
                             <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                         </a>
-                    </li>                   
+                    </li>
 
                     <li class="sidebar-item">
                         <a class="sidebar-link" asp-controller="Home" asp-action="Login">
@@ -44,8 +44,8 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="pages-blank.html">
-                            <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blank</span>
+                        <a class="sidebar-link" asp-controller="Home" asp-action="Logout">
+                            <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">Logout</span>
                         </a>
                     </li>
 
@@ -99,8 +99,6 @@
                         </a>
                     </li>
                 </ul>
-
-
             </div>
         </nav>
 
