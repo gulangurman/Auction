@@ -30,6 +30,13 @@
                         new { @class = "custom-select form-control col-sm-6" })
                         }
                     </div>
+                    <div class="form-group">
+                        <label asp-for="ProductId" class="form-label"></label>
+                        @Html.DropDownListFor(l => l.ProductId,
+                        new SelectList(ViewBag.Products, "Id", "Name"),
+                        "Please Select Product",
+                        new { @class = "custom-select form-control col-sm-6" })
+                    </div>
 
                 </div>
             </div>

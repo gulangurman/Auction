@@ -98,3 +98,20 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  # Web UI
+  onlineauction.webui:
+    container_name: onlineauctionwebui
+    depends_on:
+      - auctiondb
+      - ordersdb
+      - identitydb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__IdentityConnection=Data Source=identitydb,1434;Database=WebAppDb;User ID=sa;Password=Odb12345678"
+      
+    ports:
+      - "8003:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

@@ -39,3 +39,10 @@ services:
       context: .
       dockerfile: OnlineAuction.APIGateway/Dockerfile
 
+
+  onlineauction.webui:
+    image: ${DOCKER_REGISTRY-}onlineauctionwebui
+    build:
+      context: .
+      dockerfile: OnlineAuction.WebUI/Dockerfile
+

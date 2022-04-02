@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineAuction.WebUI.Clients;
 using OnlineAuction.WebUI.Models;
 
 namespace OnlineAuction.WebUI.Controllers
@@ -11,10 +12,12 @@ namespace OnlineAuction.WebUI.Controllers
     public class AuctionController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly ProductClient _productClient;
 
-        public AuctionController(UserManager<AppUser> userManager)
+        public AuctionController(UserManager<AppUser> userManager, ProductClient productClient)
         {
             _userManager = userManager;
+            _productClient = productClient;
         }
 
         public IActionResult Index()
@@ -24,6 +27,11 @@ namespace OnlineAuction.WebUI.Controllers
 
         public async Task<IActionResult> Create()
         {
+            var products = await _productClient.GetProducts();
+            if(products != null)
+            {
+                ViewBag.Products = products;
+            }
             var users = await _userManager.Users.ToListAsync();
             ViewBag.Users = users;
             return View();
