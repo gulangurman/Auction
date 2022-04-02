@@ -10,6 +10,9 @@ services:
   auctiondb: 
     image: mongo
 
+  identitydb:
+    image: mcr.microsoft.com/mssql/server
+
   auction.products:
     image: ${DOCKER_REGISTRY-}auctionproducts
     build:
