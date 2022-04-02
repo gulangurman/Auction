@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   rabbitmq:
-    image: rabbitmq:3.10-rc-management-alpine
+    image: rabbitmq:3.10-rc-management
 
   ordersdb:
     image: mcr.microsoft.com/mssql/server
@@ -23,9 +23,16 @@ services:
       dockerfile: Auction.Auction/Dockerfile
 
 
-  auction.order:
-    image: ${DOCKER_REGISTRY-}auctionorder
+  auction.ordering:
+    image: ${DOCKER_REGISTRY-}auctionordering
     build:
       context: .
-      dockerfile: Auction.Order/Dockerfile
+      dockerfile: Auction.Ordering/Dockerfile
+
+
+  onlineauction.apigateway:
+    image: ${DOCKER_REGISTRY-}onlineauctionapigateway
+    build:
+      context: .
+      dockerfile: OnlineAuction.APIGateway/Dockerfile
 
