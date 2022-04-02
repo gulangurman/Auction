@@ -70,8 +70,9 @@ namespace OnlineAuction.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl)
         {
+            returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
@@ -81,7 +82,7 @@ namespace OnlineAuction.WebUI.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction(nameof(Index));
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 ModelState.AddModelError("", "Invalid email address or password");

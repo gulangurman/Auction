@@ -24,15 +24,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<WebAppContext>();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.Cookie.Name = "OnlineAuction";
-        options.LoginPath = "/Home/Login";
-        options.LogoutPath = "/Home/Logout";
-        options.ExpireTimeSpan = TimeSpan.FromDays(3);
-        options.SlidingExpiration = false;
-    });
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Home/Login";
+    options.LogoutPath = "/Home/Logout";
+});
 
 var app = builder.Build();
 
@@ -45,6 +41,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
