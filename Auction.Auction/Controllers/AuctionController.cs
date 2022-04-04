@@ -55,8 +55,14 @@ namespace Auction.Auction.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(EAuction), (int)HttpStatusCode.Created)]
-        public async Task<ActionResult<EAuction>> CreateAuction([FromBody] EAuction auction)
+        public async Task<ActionResult<EAuction>> CreateAuction([FromBody]CreateAuctionDTO dto)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid object sent from client.");
+                return BadRequest("Invalid model");
+            }
+            EAuction auction=_mapper.Map<EAuction>(dto);
             await _auctionRepository.Create(auction);
             return CreatedAtRoute("GetAuction", new { id = auction.Id }, auction);
         }

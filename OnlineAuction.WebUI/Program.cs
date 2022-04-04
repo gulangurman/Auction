@@ -33,6 +33,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ProductClient>();
+builder.Services.AddHttpClient<AuctionClient>();
+builder.Services.AddHttpClient<BidClient>();
+
 
 var app = builder.Build();
 
@@ -43,8 +46,8 @@ using (var scope = app.Services.CreateScope())
     var logger = loggerFactory.CreateLogger<Program>();
     try
     {
-        var aspnetRunContext = services.GetRequiredService<WebAppContext>();
-        WebAppContextSeed.SeedAsync(aspnetRunContext, loggerFactory).Wait();
+        var context = services.GetRequiredService<WebAppContext>();
+        WebAppContextSeed.SeedAsync(context, loggerFactory).Wait();
         logger.LogInformation("DB Seed successful");
     }
     catch (Exception ex)

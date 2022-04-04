@@ -5,7 +5,7 @@ namespace OnlineAuction.WebUI.Models
     public class AuctionViewModel
     {
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required(ErrorMessage = "Please enter name")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter description")]
@@ -15,12 +15,12 @@ namespace OnlineAuction.WebUI.Models
         [Required(ErrorMessage = "Please enter quantity")]
         public int Quantity { get; set; }
         public DateTime CreatedAt { get; set; }
-        [Required(ErrorMessage = "Please enter qustart date")]
+        [Required(ErrorMessage = "Please enter start date")]
         public DateTime StartedAt { get; set; }
         [Required(ErrorMessage = "Please enter finish date")]
         public DateTime FinishedAt { get; set; }
         public int Status { get; set; }
-        public int SellerId { get; set; }
-        public List<string> IncludedSellers { get; set; }
+        public string SellerId { get; set; }
+        public List<string> IncludedSellers { get; set; } = new List<string>();
     }
 }

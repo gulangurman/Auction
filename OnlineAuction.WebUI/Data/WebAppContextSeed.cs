@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OnlineAuction.WebUI.Models;
 
 namespace OnlineAuction.WebUI.Data
@@ -33,16 +34,23 @@ namespace OnlineAuction.WebUI.Data
 
         private static IEnumerable<AppUser> GetPreconfiguredOrders()
         {
-            return new List<AppUser>()
+            var hasher = new PasswordHasher<AppUser>();
+            var list = new List<AppUser>()
             {
                 new AppUser
                 {
-                    FirstName ="User1",
-                    LastName = "User LastName1",
+                    FirstName ="test",
+                    LastName = "user",
                     IsSeller = true,
-                    IsBuyer = false
+                    IsBuyer = false,
+                    Email="test@example.com",
+                    NormalizedEmail = "TEST@EXAMPLE.COM",
+                    UserName="test@example.com"
                 }
             };
+            list.ForEach(x => x.PasswordHash = hasher.HashPassword(x, x.FirstName));
+            return list;
+
         }
     }
 }

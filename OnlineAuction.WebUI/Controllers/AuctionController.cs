@@ -13,22 +13,31 @@ namespace OnlineAuction.WebUI.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ProductClient _productClient;
+        private readonly AuctionClient _auctionClient;
+        private readonly BidClient _bidClient;
 
-        public AuctionController(UserManager<AppUser> userManager, ProductClient productClient)
+        public AuctionController(UserManager<AppUser> userManager, ProductClient productClient, AuctionClient auctionClient, BidClient bidClient)
         {
             _userManager = userManager;
             _productClient = productClient;
+            _auctionClient = auctionClient;
+            _bidClient = bidClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var model = await _auctionClient.GetAuctions();
+            if (model != null)
+            {
+                return View(model);
+            }
             return View();
         }
 
         public async Task<IActionResult> Create()
         {
             var products = await _productClient.GetProducts();
-            if(products != null)
+            if (products != null)
             {
                 ViewBag.Products = products;
             }
@@ -38,8 +47,16 @@ namespace OnlineAuction.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AuctionViewModel model)
+        public async Task<IActionResult> Create(AuctionViewModel model)
         {
+            model.Status = 1;
+            model.CreatedAt = DateTime.Now;
+            model.IncludedSellers.Add(model.SellerId);
+            var result = await _auctionClient.CreateAuction(model);
+            if (result != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View(model);
         }
 

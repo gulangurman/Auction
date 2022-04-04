@@ -9,7 +9,7 @@ namespace OnlineAuction.WebUI.Clients
         public ProductClient(HttpClient client)
         {
             _client = client;
-            _client.BaseAddress = new Uri("http://auctiondb:27017");
+            _client.BaseAddress = new Uri("http://localhost:8000");
         }
         public async Task<List<ProductViewModel>> GetProducts()
         {

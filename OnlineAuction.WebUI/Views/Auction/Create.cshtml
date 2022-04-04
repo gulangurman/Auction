@@ -20,6 +20,25 @@
                         <label asp-for="Description" class="form-label"></label>
                         <input asp-for="Description" type="text" class="form-control" placeholder="Description" />
                     </div>
+                    <div class="form-group">
+                        <label asp-for="ProductId" class="form-label"></label>
+                        @Html.DropDownListFor(l => l.ProductId,
+                        new SelectList(ViewBag.Products, "Id", "Name"),
+                        "Please Select Product",
+                        new { @class = "custom-select form-control col-sm-6" })
+                    </div>
+                     <div class="form-control">
+                        <label asp-for="Quantity" class="form-label"></label>
+                        <input asp-for="Quantity" type="number" class="form-control" />
+                    </div>
+                     <div class="form-control">
+                        <label asp-for="CreatedAt" class="form-label"></label>
+                        <input asp-for="CreatedAt" type="date" class="form-control" />
+                    </div>
+                    <div class="form-control">
+                        <label asp-for="FinishedAt" class="form-label"></label>
+                        <input asp-for="FinishedAt" type="date" class="form-control" />
+                    </div>
                     <div class="form-control">
                         <label asp-for="SellerId" class="form-label"></label>
                         @if (ViewBag.Users != null)
@@ -30,17 +49,10 @@
                         new { @class = "custom-select form-control col-sm-6" })
                         }
                     </div>
-                    <div class="form-group">
-                        <label asp-for="ProductId" class="form-label"></label>
-                        @Html.DropDownListFor(l => l.ProductId,
-                        new SelectList(ViewBag.Products, "Id", "Name"),
-                        "Please Select Product",
-                        new { @class = "custom-select form-control col-sm-6" })
-                    </div>
-
+                    
+                    <button type="submit">Create new auction</button>
                 </div>
             </div>
-
         </form>
     </div>
 </div>
