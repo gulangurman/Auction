@@ -8,5 +8,6 @@ namespace OnlineAuction.WebUI.Models
         public string LastName { get; set; }
         public bool IsSeller { get; set; }
         public bool IsBuyer { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

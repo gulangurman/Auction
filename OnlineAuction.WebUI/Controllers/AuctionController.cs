@@ -71,8 +71,8 @@ namespace OnlineAuction.WebUI.Controllers
             model.AuctionId = auction.Id;
             model.ProductId = auction.ProductId;
             model.Bids = bids;
-            //var isAdmin = HttpContext.Session.GetString("IsAdmin");
-            //model.IsAdmin = Convert.ToBoolean(isAdmin);
+            var isAdmin = HttpContext.Session.GetString("IsAdmin");
+            model.IsAdmin = Convert.ToBoolean(isAdmin);
 
             return View(model);
         }

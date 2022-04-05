@@ -82,6 +82,7 @@ namespace OnlineAuction.WebUI.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
+                        HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
                         return LocalRedirect(returnUrl);
                     }
                 }
