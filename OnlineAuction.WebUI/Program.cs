@@ -25,6 +25,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<WebAppContext>();
 
+builder.Services.AddSession(opt =>
+{
+    opt.IdleTimeout = TimeSpan.FromMinutes(20);
+});
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Home/Login";
@@ -55,6 +60,8 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "DB Seed failed");
     }
 }
+
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

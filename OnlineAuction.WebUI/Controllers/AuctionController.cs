@@ -60,9 +60,33 @@ namespace OnlineAuction.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            AuctionBidsViewModel model = new AuctionBidsViewModel();
+
+            var auction = await _auctionClient.GetAuctionById(id);
+            var bids = await _bidClient.GelAllBidsByAuctionId(id);
+
+            model.SellerUserName = HttpContext.User?.Identity.Name;
+            model.AuctionId = auction.Id;
+            model.ProductId = auction.ProductId;
+            model.Bids = bids;
+            //var isAdmin = HttpContext.Session.GetString("IsAdmin");
+            //model.IsAdmin = Convert.ToBoolean(isAdmin);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<string> SendBid(BidViewModel model)
+        {
+            model.CreateAt = DateTime.Now;
+            return await _bidClient.SendBid(model);
+        }
+
+        [HttpPost]
+        public async Task<string> CompleteBid(string id)
+        {
+            return await _auctionClient.CompleteBid(id);
         }
     }
 }

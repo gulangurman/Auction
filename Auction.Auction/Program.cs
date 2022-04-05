@@ -7,6 +7,7 @@ using EventBusRabbitMQ.Producer;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using AutoMapper;
+using Auction.Auction.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,13 +64,30 @@ builder.Services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 
 builder.Services.AddSingleton<EventBusRabbitMQProducer>();
 
+builder.Services.AddCors(x => x.AddPolicy("CorsPolicy", builder =>
+  {
+      builder.AllowAnyOrigin()
+      .AllowAnyMethod()
+      .AllowAnyHeader()
+      .AllowCredentials()
+      .WithOrigins("http://localhost:5048"); // web ui
+  }));
+
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+app.UseRouting();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseCors("CorsPolicy");
+
+app.MapControllerRoute( name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<AuctionHub>("/auctionhub");
 
 app.UseSwagger();
 app.UseSwaggerUI(x =>

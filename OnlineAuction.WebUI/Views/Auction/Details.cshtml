@@ -1,78 +1,62 @@
-﻿@model OnlineAuction.WebUI.Models.AuctionViewModel
+﻿@model AuctionBidsViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Quick Auction</h3>
+            </div>
+          
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="exampleInputPrice">Price</label>
+                        <input type="number" min="0" class="form-control" id="exampleInputPrice" placeholder="Enter Price" />
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" id="sendButton" class="btn btn-primary">Submit</button>
+                </div>
+        </div>
+    </div>
 
-<div>
-    <h4>AuctionViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FinishedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FinishedAt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SellerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SellerId)
-        </dd>
-    </dl>
+    <div class="col-md-6">
+        <div class="card-header" style="background-color:darkgray">
+            <h3 class="card-title">Active RFQ Detail</h3>
+        </div>
+        @Html.HiddenFor(x => x.AuctionId)
+        @Html.HiddenFor(x => x.ProductId)
+        @Html.HiddenFor(x => x.SellerUserName)
+        <div class="card-body">
+            <table id="exampleAuction" class="table table-bordered table-hover">
+                <thead>
+                    <tr style="background-color:darkgray">
+                        <th>RFQ User Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody class="bidLine">
+                    @if (Model.Bids != null)
+                    {
+                        @foreach (var bid in Model.Bids)
+                        {
+                            <tr>
+                                <td>@bid.SellerUserName</td>
+                                <td>@bid.Price</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+<button type="submit" id="finishButton" class="btn btn-primary">Finish RFQ</button>
+
+<script type="text/javascript" src="~/lib/microsoft-signalr/signalr.js"></script>
+<script type="text/javascript" src=~/js/detail.js></script>
+
+
