@@ -22,9 +22,9 @@ namespace Auction.Auction.Controllers
             await _bidRepository.SendBid(bid);
             return Ok();
         }
-        [HttpGet("GetBidByAuctionId")]
+        [HttpGet("GetBidsByAuctionId")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Bid>>> GetBidByAuctionId(string id)
+        public async Task<ActionResult<IEnumerable<Bid>>> GetBidsByAuctionId(string id)
         {
             var bids = await _bidRepository.GetBidsByAuctionId(id);
             return Ok(bids);

@@ -21,4 +21,51 @@
         }).catch(function (error) {
             return console.error(error.message);
         });
+
+    connection.on("Bids", function (user, bid) {
+        addBidToTable(user, bid);
+    })
+
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+        var user = document.getElementById("SellerUserName").value;
+        var productId = document.getElementById("ProductId").value;
+        var sellerUser = user;
+        var bid = document.getElementById("exampleInputPrice").value;
+
+        var sendBidRequest = {
+            AuctionId: auctionId,
+            ProductId: productId,
+            SellerUserName: sellerUser,
+            Price: parseFloat(bid).toString()
+        };
+        SendBid(sendBidRequest);
+        event.preventDefault();
+    });
+
+    function addBidToTable(user, bid) {
+        var row = `<tr><td>${user}</td><td>${bid}</td></tr>`;
+        if ($("table>tbody>tr:first").length > 0) {
+            $("table>tbody>tr:first").before(row); // add to top
+        } else {
+            $('.bidLine').append(row);
+        }
+    }
+
+    function SendBid(model) {
+        $.ajax({
+            url: "/Auction/SendBid",
+            type: "POST",
+            data: model,
+            success: function () {               
+                document.getElementById("exampleInputPrice").value = "";
+                connection.invoke("SendBid", groupName, model.SellerUserName, model.Price)
+                    .catch(function (err) {
+                        return console.error(err.message);
+                    });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("textStatus, errorThrown");
+            }
+        });
+    }
 });
