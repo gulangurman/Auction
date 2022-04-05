@@ -6,6 +6,7 @@ namespace Auction.Auction.Repositories.Abstract
     public interface IBidRepository
     {
         Task<List<Bid>> GetBidsByAuctionId(string id);
+        Task<List<Bid>> GetAllBidsByAuctionId(string id);
         Task<Bid> GetWinnerBid(string id);
         Task SendBid(Bid bid);
     }

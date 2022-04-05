@@ -14,7 +14,7 @@ namespace OnlineAuction.WebUI.Clients
 
         public async Task<List<BidViewModel>> GelAllBidsByAuctionId(string id)
         {
-            var response = await _client.GetAsync("/api/v1/Bid/GetBidsByAuctionId?id=" + id);
+            var response = await _client.GetAsync("/api/v1/Bid/GetAllBidsByAuctionId?id=" + id);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<List<BidViewModel>>();

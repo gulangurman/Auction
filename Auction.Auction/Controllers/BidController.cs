@@ -1,5 +1,6 @@
 ﻿using Auction.Auction.Models;
 using Auction.Auction.Repositories.Abstract;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,23 +11,36 @@ namespace Auction.Auction.Controllers
     public class BidController : ControllerBase
     {
         private readonly IBidRepository _bidRepository;
-        public BidController(IBidRepository bidRepository)
+        private readonly IMapper _mapper;
+        public BidController(IBidRepository bidRepository, IMapper mapper)
         {
             _bidRepository = bidRepository;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> SendBid([FromBody] Bid bid)
+        public async Task<IActionResult> SendBid([FromBody] CreateBidDTO dto)
         {
+            var bid = _mapper.Map<Bid>(dto);
             await _bidRepository.SendBid(bid);
             return Ok();
         }
-        [HttpGet("GetBidsByAuctionId")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Bid>>> GetBidsByAuctionId(string id)
+
+        [HttpGet("GetBidByAuctionId")]
+        [ProducesResponseType(typeof(IEnumerable<Bid>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Bid>>> GetBidByAuctionId(string id)
         {
-            var bids = await _bidRepository.GetBidsByAuctionId(id);
+            IEnumerable<Bid> bids = await _bidRepository.GetBidsByAuctionId(id);
+
+            return Ok(bids);
+        }
+
+        [HttpGet("GetAllBidsByAuctionId")]
+        [ProducesResponseType(typeof(List<Bid>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Bid>>> GetAllBidsByAuctionId(string id)
+        {
+            var bids = await _bidRepository.GetAllBidsByAuctionId(id);
             return Ok(bids);
         }
 

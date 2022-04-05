@@ -15,18 +15,48 @@ namespace Auction.Auction.Repositories
 
         public async Task<List<Bid>> GetBidsByAuctionId(string id)
         {
-            var bids = await _context.Bids.Find(id).ToListAsync();
-            bids = bids.OrderByDescending(o => o.CreatedAt)
-                .GroupBy(x => x.SellerUserName)
-                .Select(x => new Bid
-                {
-                    AuctionId = x.FirstOrDefault().AuctionId,
-                    Price = x.FirstOrDefault().Price,
-                    CreatedAt = x.FirstOrDefault().CreatedAt,
-                    SellerUserName = x.FirstOrDefault().SellerUserName,
-                    ProductId = x.FirstOrDefault().ProductId,
-                    Id = x.FirstOrDefault().Id
-                }).ToList();
+            FilterDefinition<Bid> filter = Builders<Bid>.Filter.Eq(a => a.AuctionId, id);
+
+            List<Bid> bids = await _context.Bids.Find(filter)
+                                                .ToListAsync();
+
+            bids = bids.OrderByDescending(a => a.CreatedAt)
+                       .GroupBy(a => a.SellerUserName)
+                       .Select(a => new Bid
+                       {
+                           AuctionId = a.FirstOrDefault().AuctionId,
+                           Price = a.FirstOrDefault().Price,
+                           CreatedAt = a.FirstOrDefault().CreatedAt,
+                           SellerUserName = a.FirstOrDefault().SellerUserName,
+                           ProductId = a.FirstOrDefault().ProductId,
+                           Id = a.FirstOrDefault().Id
+                       })
+                       .ToList();
+
+            return bids;
+        }
+
+        public async Task<List<Bid>> GetAllBidsByAuctionId(string id)
+        {
+            FilterDefinition<Bid> filter = Builders<Bid>.Filter.Eq(p => p.AuctionId, id);
+
+            List<Bid> bids = await _context
+                          .Bids
+                          .Find(filter)
+                          .ToListAsync();
+
+            bids = bids.OrderByDescending(a => a.CreatedAt)
+                                   .Select(a => new Bid
+                                   {
+                                       AuctionId = a.AuctionId,
+                                       Price = a.Price,
+                                       CreatedAt = a.CreatedAt,
+                                       SellerUserName = a.SellerUserName,
+                                       ProductId = a.ProductId,
+                                       Id = a.Id
+                                   })
+                                   .ToList();
+
             return bids;
         }
 

@@ -10,6 +10,7 @@ namespace Auction.Auction.Mapping
         {
             CreateMap<OrderCreateEvent, Bid>().ReverseMap();
             CreateMap<CreateAuctionDTO, EAuction>();
+            CreateMap<CreateBidDTO, Bid>();
         }
     }
 }
