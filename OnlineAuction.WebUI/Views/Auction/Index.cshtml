@@ -20,7 +20,6 @@
                         <th>Quantity</th>
                         <th class="d-none d-xl-table-cell">Start Date</th>
                         <th class="d-none d-xl-table-cell">End Date</th>
-                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,8 +34,16 @@
                                 <td>@auction.Quantity</td>
                                 <td class="d-none d-xl-table-cell">@auction.StartedAt.ToShortDateString()</td>
                                 <td class="d-none d-xl-table-cell">@auction.FinishedAt.ToShortDateString()</td>
-                                <td><span class="badge bg-success">@auction.Status</span></td>
-                                <td><a asp-controller="Auction" asp-action="Details" asp-route-id="@auction.Id">Details</a></td>
+                                <td>
+                                    @if (auction.Status == 0)
+                                    {
+                                        <a asp-controller="Auction" asp-action="Details" asp-route-id="@auction.Id"><span class="badge bg-success">Details</span></a>
+                                    }
+                                    else
+                                    {
+                                        <span>Closed</span>
+                                    }
+                                </td>
                             </tr>
                         }
                     }

@@ -1,7 +1,7 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     // connect to the auction hub
     var connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:5172/auctionhub")
+        .withUrl("http://localhost:8001/auctionhub")
         .build();
 
     // disable send btn until connection is established

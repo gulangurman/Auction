@@ -4,16 +4,14 @@ services:
 
   # messaging service
   rabbitmq:
-    container_name: rabbitmq
-    restart: always
+    container_name: rabbitmq    
     ports:
       - "5672:5672"
       - "15672:15672"
 
   # product db for product catalog service
   auctiondb:
-    container_name: auctiondb
-    restart: always
+    container_name: auctiondb  
     volumes:
         - ${WEBAPP_STORAGE_HOME}/site:/data/db
     ports:

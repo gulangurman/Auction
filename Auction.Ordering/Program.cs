@@ -1,8 +1,6 @@
 using Auction.Ordering.Consumers;
 using Auction.Ordering.Extensions;
 using EventBusRabbitMQ;
-using Ordering.Application;
-using Auction.Ordering;
 using RabbitMQ.Client;
 using Ordering.Domain.Repositories.Base;
 using Auction.Ordering.Repositories.Base;
@@ -10,6 +8,10 @@ using Ordering.Domain.Repositories;
 using Auction.Ordering.Repositories;
 using Auction.Ordering.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using FluentValidation;
+using AutoMapper;
+using Auction.Ordering.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +28,17 @@ builder.Services.AddDbContext<OrderContext>(options =>
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 
-builder.Services.AddApplication();
+//builder.Services.AddApplication();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-builder.Services.AddAutoMapper(typeof(Program));
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+    cfg.AddProfile<OrderMappingProfile>();
+});
+var mapper = config.CreateMapper();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 {

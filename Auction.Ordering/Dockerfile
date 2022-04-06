@@ -7,7 +7,6 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
 COPY ["Auction.Ordering/Auction.Ordering.csproj", "Auction.Ordering/"]
-COPY ["Ordering.Application/Ordering.Application.csproj", "Ordering.Application/"]
 COPY ["Ordering.Domain/Ordering.Domain.csproj", "Ordering.Domain/"]
 COPY ["EventBusRabbitMQ/EventBusRabbitMQ.csproj", "EventBusRabbitMQ/"]
 RUN dotnet restore "Auction.Ordering/Auction.Ordering.csproj"

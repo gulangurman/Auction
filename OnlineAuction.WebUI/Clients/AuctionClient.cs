@@ -11,7 +11,7 @@ namespace OnlineAuction.WebUI.Clients
         public AuctionClient(HttpClient client)
         {
             _client = client;
-            _client.BaseAddress = new Uri("http://localhost:5172");
+            _client.BaseAddress = new Uri("http://localhost:8001");
         }
 
         public async Task<List<AuctionViewModel>> GetAuctions()

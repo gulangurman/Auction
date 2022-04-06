@@ -49,7 +49,7 @@ namespace OnlineAuction.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AuctionViewModel model)
         {
-            model.Status = 1;
+            model.Status = default(int);
             model.CreatedAt = DateTime.Now;
             model.IncludedSellers.Add(model.SellerId);
             var result = await _auctionClient.CreateAuction(model);
@@ -76,10 +76,11 @@ namespace OnlineAuction.WebUI.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public async Task<string> SendBid(BidViewModel model)
         {
-            model.CreateAt = DateTime.Now;
+            model.CreatedAt = DateTime.Now;
             return await _bidClient.SendBid(model);
         }
 
