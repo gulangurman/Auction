@@ -11,12 +11,12 @@ namespace OnlineAuction.WebUI.Clients
         public AuctionClient(HttpClient client)
         {
             _client = client;
-            _client.BaseAddress = new Uri("http://localhost:8001");
+            _client.BaseAddress = new Uri("http://localhost:5000");
         }
 
         public async Task<List<AuctionViewModel>> GetAuctions()
         {
-            var response = await _client.GetAsync("/api/v1/Auction");
+            var response = await _client.GetAsync("/Auction");
             if (response.IsSuccessStatusCode)
             {
                 var auctions = await response.Content.ReadFromJsonAsync<List<AuctionViewModel>>();
@@ -34,7 +34,7 @@ namespace OnlineAuction.WebUI.Clients
             var dataAsString = JsonConvert.SerializeObject(model);
             var content = new StringContent(dataAsString);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await _client.PostAsync("/api/v1/Auction", content);
+            var response = await _client.PostAsync("/Auction", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -49,7 +49,7 @@ namespace OnlineAuction.WebUI.Clients
 
         public async Task<AuctionViewModel> GetAuctionById(string id)
         {
-            var response = await _client.GetAsync("/api/v1/Auction/" + id);
+            var response = await _client.GetAsync("/Auction/" + id);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<AuctionViewModel>();
@@ -63,7 +63,7 @@ namespace OnlineAuction.WebUI.Clients
 
         public async Task<string> CompleteBid(string id)
         {
-            var response = await _client.PostAsJsonAsync("/api/v1/Auction/CompleteAuction", id);
+            var response = await _client.PostAsJsonAsync("/Auction/CompleteAuction", id);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();

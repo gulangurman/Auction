@@ -9,11 +9,11 @@ namespace OnlineAuction.WebUI.Clients
         public ProductClient(HttpClient client)
         {
             _client = client;
-            _client.BaseAddress = new Uri("http://localhost:8000");
+            _client.BaseAddress = new Uri("http://localhost:5000");
         }
         public async Task<List<ProductViewModel>> GetProducts()
         {
-            var response = await _client.GetAsync("/api/v1/Product");
+            var response = await _client.GetAsync("/Product");
             if (response.IsSuccessStatusCode)
             {
                 try
